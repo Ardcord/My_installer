@@ -1,9 +1,9 @@
-#My Installer Script
+# My Installer Script
 
 This repository hosts the "My Installer" script, a versatile Bash script designed to facilitate the installation of multiple software tools on Linux systems. Created by Tvanbael, this script is particularly useful for setting up a new machine with essential tools like Ghidra, Obsidian, Multi Tools, and BurpSuite Pro.
 
 
-##Features
+## Features
 
     Root Verification: Ensures the script is run with root privileges for proper installations.
     Dynamic Menu System: Offers an interactive menu for selecting which tools to install.
@@ -11,13 +11,13 @@ This repository hosts the "My Installer" script, a versatile Bash script designe
     Automatic Downloads: Handles the downloading of Ghidra, OpenJDK 17, and more to come.
     Easy Configuration: Adds paths to the user's .zshrc for immediate tool availability.
 
-##Prerequisites
+## Prerequisites
 
     Linux OS
     wget, unzip, and tar utilities for handling downloads and extractions.
     Root or sudo access.
 
-##Getting Started
+## Getting Started
 
   To use the installer script, follow these simple steps:
 
@@ -40,7 +40,7 @@ This repository hosts the "My Installer" script, a versatile Bash script designe
   4. Follow the interactive menu to select and install your desired tools.
 
 
-##Customization
+## Customization
 
   You can easily extend the script to include more tools. Just add new tool variables, update the toggle functions, and modify the start_install function to handle the new tool installations.
   Contributing
@@ -54,7 +54,7 @@ This repository hosts the "My Installer" script, a versatile Bash script designe
     Open a Pull Request
 
 
-##Acknowledgements
+## Acknowledgements
 
     National Security Agency (NSA) for Ghidra.
     PortSwigger Web Security for Burp Suite Pro.
