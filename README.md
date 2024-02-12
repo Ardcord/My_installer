@@ -1,6 +1,6 @@
 # My Installer Script
 
-This repository hosts the "My Installer" script, a versatile Bash script designed to facilitate the installation of multiple software tools on Linux systems. Created by Tvanbael, this script is particularly useful for setting up a new machine with essential tools like Ghidra, Obsidian, Multi Tools, and BurpSuite Pro.
+This repository hosts the "My Installer" script, a versatile Bash script designed to facilitate the installation of multiple software tools on Linux systems. Created by Tvanbael, this script is particularly useful for setting up a new machine with essential tools like Ghidra, Obsidian, BurpSuite Pro, and Others Tools.
 
 
 [](https://github.com/Ardcord/My_installer/assets/93101315/8f49cb78-d5ff-43f3-9299-813a2081583d)
