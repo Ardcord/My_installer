@@ -59,15 +59,14 @@ toggle_space() {
     local var_names=("GHIDRA_VAR" "OBSIDIAN_VAR" "MULTI_TOOLS_VAR" "BURP_PRO_VAR")
     local pos_var=$((POS_VAR - 1))
     local callback="$1"
+    local condition="$2"
 
     if [ $pos_var -eq 4 ]; then
         start_install
         exit 0
     fi
-    if [ "${callback}" == "select_option" ]; then
-        if [ "${pos_var}" -eq 1 ]; then
-            print_information_packets
-        fi
+    if [ "${condition}" = "2" ]; then
+        print_information_packets       
     fi
     if [ "${!var_names[$pos_var]}" != true ]; then
         eval "${var_names[$pos_var]}=true"
@@ -82,17 +81,11 @@ toggle_left() {
     local pos_var=$((POS_VAR - 1))
     local callback="$1"
 
-    if [ "${!var_names[$pos_var]}" == false ]; then
-        var_names[1]=false
-        var_names[2]=false
-        var_names[3]=false
-        var_names[4]=false
-        menu
-    fi
-    if [ "${!var_names[$pos_var]}" == true ]; then
-        eval "${var_names[$pos_var]}=false"
-    fi
-    "$callback"
+    for var_name in "${var_names[@]}"; do
+        eval "$var_name=false"
+    done
+    POS_VAR=1
+    menu
 }
 
 toggle_up() {
@@ -281,6 +274,7 @@ print_select_mode() {
     echo ""
 }
 
+
 select_mode() {
     print_select_mode
     while true; do
@@ -290,7 +284,13 @@ select_mode() {
                 clear
                 exit 0
             fi
-            toggle_space select_option
+            if [ $POS_VAR -eq 1 ]; then
+                toggle_space select_option 1
+            elif [ $POS_VAR -eq 2 ]; then
+                toggle_space select_option 2
+            else
+                toggle_space select_option 3
+            fi
         fi
         case "$key" in
             $'\x1b')
@@ -316,9 +316,9 @@ menu() {
     tput civis
     clear
     banner
-    echo -e "For navigation in menu, use arrow $UP_ARROW and $DOWN_ARROW"
+    echo -e "For navigation in menu, use arrow ${GREEN}$UP_ARROW${RESET} and ${GREEN}$DOWN_ARROW${RESET}"
     echo -e ""
-    echo -e "Select an option with ${GREEN}space"
+    echo -e "Select an option with ${GREEN}space${RESET}"
     echo -e ""
     echo -e "Return to the previous menu with ${GREEN}left${RESET}"
     echo -e ""
@@ -326,39 +326,45 @@ menu() {
     echo -e ""
     echo -e ""
     echo -e ""
+    echo -e ""
+    echo -e ""
     select_mode
     select_option
-    echo "debug 3"
 }
 
 start_install() {
+    clear
+    banner
+    echo -e ""
     echo -e "████████████████████████████████████████████████████████████████████████████████████████████████████"
     echo -e "   ${CYAN}Activity logs${RESET}"
     echo -e "████████████████████████████████████████████████████████████████████████████████████████████████████"
     echo -e "Work in progress ..."
     echo -e ""
     if [ "$GHIDRA_VAR" == true ]; then
-        echo "${YELLOW}Installation de Ghidra${RESET}"
+        echo -e "${YELLOW}Installation de Ghidra${RESET}"
         curl -sSL https://raw.githubusercontent.com/Ardcord/Ghidra_install/main/Ghidra_Install.sh > /tmp/Guidra_Install.sh
         chmod +x /tmp/Guidra_Install.sh
         sudo /tmp/Guidra_Install.sh
         rm -rf /tmp/Guidra_Install.sh
+        echo -e "${GREEN}Installation of Ghidra done${RESET}"
     fi
     if [ "$OBSIDIAN_VAR" == true ]; then
-        echo "${YELLOW}Installation of Obsidian{RESET} (Comming soon)"
+        echo -e "${YELLOW}Installation of Obsidian{RESET} (Comming soon)"
     fi
     if [ "$MULTI_TOOLS_VAR" == true ]; then
-        echo "${YELLOW}Installation of Multi Tools{RESET} (Comming soon)"
+        echo -e "${YELLOW}Installation of Multi Tools{RESET} (Comming soon)"
     fi
     if [ "$BURP_PRO_VAR" == true ]; then
-        echo "${YELLOW}Installation of BurpSuite Pro{RESET} (Comming soon)"
+        echo -e "${YELLOW}Installation of BurpSuite Pro{RESET} (Comming soon)"
 
     fi
     echo -e "████████████████████████████████████████████████████████████████████████████████████████████████████"
-    echo -e "${GREEN}Installation clear"
+    echo -e "${GREEN}Exit the installer${RESET}"
     exit 0
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
     menu
 fi
+
