@@ -1,12 +1,13 @@
 #!/bin/bash
 
 # My_Istaller by  :  Tvanbael
-# Version         :  1.0.0
-# Created the     :  2024-02-12
-# Last update     :  2024-02-12
+# Version         :  1.1.0
+# Created the     :  2024-02-13
+# Last update     :  2024-02-13
 
 
 banner () {
+    clear
     echo -e "████████████████████████████████████████████████████████████████████████████████████████████████████"
     echo -e "█                                                                                                  █"
     echo -e "█  ███    ███ ██    ██      ██ ███    ██ ███████ ████████  █████  ██      ██      ███████ ██████   █"
@@ -55,6 +56,12 @@ MULTI_TOOLS_VAR=false
 BURP_PRO_VAR=false
 POS_VAR=1
 
+exit_mode() {
+    tput cnorm
+    clear
+    exit 0
+}
+
 toggle_space() {
     local var_names=("GHIDRA_VAR" "OBSIDIAN_VAR" "MULTI_TOOLS_VAR" "BURP_PRO_VAR")
     local pos_var=$((POS_VAR - 1))
@@ -63,7 +70,7 @@ toggle_space() {
 
     if [ $pos_var -eq 4 ]; then
         start_install
-        exit 0
+        exit_mode
     fi
     if [ "${condition}" = "2" ]; then
         print_information_packets       
@@ -282,7 +289,7 @@ select_mode() {
         if [[ "$key" == " " ]]; then
             if [ $POS_VAR -eq 3 ]; then
                 clear
-                exit 0
+                exit_mode
             fi
             if [ $POS_VAR -eq 1 ]; then
                 toggle_space select_option 1
@@ -361,10 +368,95 @@ start_install() {
     fi
     echo -e "████████████████████████████████████████████████████████████████████████████████████████████████████"
     echo -e "${GREEN}Exit the installer${RESET}"
-    exit 0
+    exit_mode
+}
+
+update_clear() {
+    clear
+    banner
+    cp /tmp/My_Installer.sh $TOTAL_PATH_SCRIPT
+    if [ $? -eq 0 ]; then
+        echo "Script updated successfully"
+        exit_mode
+    else
+        echo "Error occurred while updating the script"
+        exit_mode
+    fi
+}
+
+update() {
+    banner
+    echo "Updating script..."
+    curl -sSL https://raw.githubusercontent.com/Ardcord/My_Installer/main/My_Installer.sh > /tmp/My_Installer.sh
+
+    if diff /tmp/My_Installer.sh $TOTAL_PATH_SCRIPT >/dev/null; then
+        echo "The script is already up to date"
+        exit_mode
+    else
+        echo "The script need an update"
+        sleep 2
+    fi
+
+    # Définir une variable pour stocker la commande de mise à jour
+    local command_to_execute=""
+    
+    command_to_execute='sudo /tmp/My_Installer.sh --update $TOTAL_PATH_SCRIPT'
+    # Afficher la commande construite
+    echo -e "Commande construite : $command_to_execute"
+    
+    # Exécuter la commande construite
+    eval "$command_to_execute"&
+    exit_mode
+}
+
+
+help() {
+    banner
+    echo -e ""
+    echo -e "My_Installer by  :  Tvanbael"
+    echo -e "Version          :  1.0.0"
+    echo -e "Created the      :  2024-02-12"
+    echo -e "Last update      :  2024-02-12"
+    echo -e ""
+    echo -e "Usage: My_Installer.sh "
+    echo -e ""
+    echo -e "   Used for maintain and install some tools"
+    echo -e ""
+    echo -e "Usage: My_Installer.sh [OPTION]"
+    echo -e ""
+    echo -e "   Options:"
+    echo -e "       -u, --update    Update the script"
+    echo -e "       -h, --help      Display this help menu"
+    echo -e ""
+    exit_mode
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
-    menu
-fi
+    PATH_SCRIPT=$(pwd)
+    TOTAL_PATH_SCRIPT="$PATH_SCRIPT/My_Installer.sh"
 
+    case "$1" in
+        "")
+            menu
+            ;;
+        "-u" | "--update")
+            if [ -z "$2" ]; then
+                update
+            elif [ ! -f "$2" ]; then
+                echo "Invalid file argument. Use -h or --help for help menu."
+                exit_mode
+            else
+                sleep 3
+                update_clear "$2"
+
+            fi
+            ;;
+        "-h" | "--help")
+            help
+            ;;
+        *)
+            echo "Invalid argument. Use -h or --help for help menu."
+            exit_mode
+            ;;
+    esac
+fi
