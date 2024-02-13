@@ -15,6 +15,8 @@ This repository hosts the "My Installer" script, a versatile Bash script designe
     Automatic Downloads: Handles the downloading of Ghidra, OpenJDK 17, and more to come.
     Easy Configuration: Adds paths to the user's .zshrc for immediate tool availability.
 
+    New feature: Auto-update whith "My_Installer.sh -u"
+
 ## Prerequisites
 
     Linux OS
