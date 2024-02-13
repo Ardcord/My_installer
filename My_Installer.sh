@@ -394,7 +394,6 @@ update() {
         exit_mode
     else
         echo "The script need an update"
-        sleep 2
     fi
 
     # Définir une variable pour stocker la commande de mise à jour
@@ -446,9 +445,9 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
                 echo "Invalid file argument. Use -h or --help for help menu."
                 exit_mode
             else
-                sleep 3
+                sleep 1
                 update_clear "$2"
-
+                exit_mode
             fi
             ;;
         "-h" | "--help")
