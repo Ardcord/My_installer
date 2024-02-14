@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # My_Istaller by  :  Tvanbael
-# Version         :  1.1.0
-# Created the     :  2024-02-13
-# Last update     :  2024-02-13
+# Version         :  1.1.2
+# Created the     :  2024-02-14
+# Last update     :  2024-02-14
 
 
 banner () {
@@ -51,9 +51,10 @@ DOWN_ARROW="\xE2\xAC\x87"
 
 # Variables
 GHIDRA_VAR=false
+DISCORD_VAR=false
 OBSIDIAN_VAR=false
 MULTI_TOOLS_VAR=false
-BURP_PRO_VAR=false
+BURP_PRO_VAR=false                                                                                     #add new variable
 POS_VAR=1
 
 exit_mode() {
@@ -63,12 +64,12 @@ exit_mode() {
 }
 
 toggle_space() {
-    local var_names=("GHIDRA_VAR" "OBSIDIAN_VAR" "MULTI_TOOLS_VAR" "BURP_PRO_VAR")
+    local var_names=("GHIDRA_VAR" "DISCORD_VAR" "OBSIDIAN_VAR" "MULTI_TOOLS_VAR" "BURP_PRO_VAR")      #add new variable
     local pos_var=$((POS_VAR - 1))
     local callback="$1"
     local condition="$2"
 
-    if [ $pos_var -eq 4 ]; then
+    if [ $pos_var -eq 5 ]; then                                                                       # pos +=1
         start_install
         exit_mode
     fi
@@ -84,7 +85,7 @@ toggle_space() {
 }
 
 toggle_left() {
-    local var_names=("GHIDRA_VAR" "OBSIDIAN_VAR" "MULTI_TOOLS_VAR" "BURP_PRO_VAR")
+    local var_names=("GHIDRA_VAR" "DISCORD_VAR" "OBSIDIAN_VAR" "MULTI_TOOLS_VAR" "BURP_PRO_VAR")                    #add new variable
     local pos_var=$((POS_VAR - 1))
     local callback="$1"
 
@@ -134,6 +135,27 @@ print_information_packets() {
     echo -e ""
     echo -e "Link   : https://ghidra-sre.org/"
     echo -e "GitHub : https://github.com/NationalSecurityAgency/ghidra"
+    echo -e ""
+    echo -e ""
+
+    # Infos Discord
+    echo -e "${BLUE}Discord${RESET}"
+    echo -e "${GREEN}_______${RESET}"
+    echo -e ""
+    echo -e "Discord is a proprietary freeware VoIP application and digital distribution platform designed for video gaming"
+    echo -e "communities, that specializes in text, image, video and audio communication between users in a chat channel."
+    echo -e "Discord runs on Windows, macOS, Android, iOS, Linux, and in web browsers. As of December 2021, the platform"
+    echo -e "has over 150 million monthly active users. The concept of Discord came from Jason Citron, who had founded"
+    echo -e "OpenFeint, a social gaming platform for mobile games. He found that some VoIP options required players to"
+    echo -e "type in IP addresses just to connect, and some did not have a way to see who was online. This led to the"
+    echo -e "creation of a chat service that was much more user-friendly, and Discord was born. Discord was publicly"
+    echo -e "released in May 2015. According to Citron, the only area that they pushed Discord into was for the gaming"
+    echo -e "community, as they found the VoIP options in the market at the time were not user-friendly, but other"
+    echo -e "communities began to use it for other purposes, such as writing groups, and learning groups."
+    echo -e ""
+    echo -e "release used: 0.0.43"
+    echo -e ""
+    echo -e "Link  : https://discord.com/"
     echo -e ""
     echo -e ""
 
@@ -188,15 +210,18 @@ print_information_packets() {
     echo -e ""
     echo -e ""
     echo -e ""
+
+                                                                                                                        # add a new description
     # Wait for user input
+    echo -e ""
     read -n 1 -s -r -p "Press any key to continue ..."
     menu
 }
 
 print_select_option() {
-    tput cuu 5 && tput el
-    options=("Ghidra             " "Obsidian           " "BurpSuite Pro      " "Tool CyberSec      " "Validate           ")
-    vars=("$GHIDRA_VAR" "$OBSIDIAN_VAR" "$MULTI_TOOLS_VAR" "$BURP_PRO_VAR")
+    tput cuu 6 && tput el
+    options=("Ghidra             " "Discord            " "Obsidian           " "BurpSuite Pro      " "Tool CyberSec      " "Validate           ") #add new variable
+    vars=("$GHIDRA_VAR" "$DISCORD_VAR" "$OBSIDIAN_VAR" "$MULTI_TOOLS_VAR" "$BURP_PRO_VAR")                              #add new variable
 
     for i in "${!options[@]}"; do
         option="${options[$i]}"
@@ -226,8 +251,13 @@ select_option() {
     while true; do
         IFS= read -s -n 1 key
         if [[ "$key" == " " ]]; then
+            # Vider le buffer
+            while read -r -t 0 key; do
+                :
+            done
             toggle_space select_option
         fi
+        
         case "$key" in
             $'\x1b') # Escape Key (for arrow keys)
                 read -s -n 1 key
@@ -240,8 +270,8 @@ select_option() {
                             fi
                             ;;
                         "B") # Down arrow
-                            if [ $POS_VAR -lt 5 ]; then
-                                toggle_down select_option 5
+                            if [ $POS_VAR -lt 6 ]; then                                                                 # add + 1
+                                toggle_down select_option 6                                                             # toggle_down + 1
                             fi
                             ;;
                         "D") # Right arrow
@@ -255,7 +285,7 @@ select_option() {
 }
 
 print_select_mode() {
-    tput cuu 6 && tput ed # Clear the last 6 lines
+    tput cuu 7 && tput ed # Clear the last 6 lines
     options=("Installation       " "Information Packets" "Exit               ")
     echo ""
     echo ""
@@ -278,6 +308,7 @@ print_select_mode() {
             echo -e "${color}[ ${RESET}${symbol}${color} ${option}${RESET}   ${color}]${RESET}"
         fi
     done
+    echo ""
     echo ""
 }
 
@@ -343,11 +374,12 @@ start_install() {
     clear
     banner
     echo -e ""
-    echo -e "████████████████████████████████████████████████████████████████████████████████████████████████████"
     echo -e "   ${CYAN}Activity logs${RESET}"
-    echo -e "████████████████████████████████████████████████████████████████████████████████████████████████████"
+    echo -e "   ${CYAN}_____________${RESET}"
+    echo -e ""
     echo -e "Work in progress ..."
     echo -e ""
+
     if [ "$GHIDRA_VAR" == true ]; then
         echo -e "${YELLOW}Installation de Ghidra${RESET}"
         curl -sSL https://raw.githubusercontent.com/Ardcord/Ghidra_install/main/Ghidra_Install.sh > /tmp/Guidra_Install.sh
@@ -355,19 +387,47 @@ start_install() {
         sudo /tmp/Guidra_Install.sh
         rm -rf /tmp/Guidra_Install.sh
         echo -e "${GREEN}Installation of Ghidra done${RESET}"
+        sleep 1
     fi
+
+    if [ "$DISCORD_VAR" == true ]; then
+        echo -e "${YELLOW}Installation of Discord${RESET}"
+        curl -sSL https://raw.githubusercontent.com/Ardcord/Discord_install/main/Discord_Install.sh > /tmp/Discord_Install.sh
+        chmod +x /tmp/Discord_Install.sh
+        sudo /tmp/Discord_Install.sh
+        rm -rf /tmp/Discord_Install.sh
+        echo -e "${GREEN}Installation of Discord done${RESET}"
+        sleep 1
+    fi
+
     if [ "$OBSIDIAN_VAR" == true ]; then
         echo -e "${YELLOW}Installation of Obsidian{RESET} (Comming soon)"
     fi
+
     if [ "$MULTI_TOOLS_VAR" == true ]; then
         echo -e "${YELLOW}Installation of Multi Tools{RESET} (Comming soon)"
     fi
+
     if [ "$BURP_PRO_VAR" == true ]; then
         echo -e "${YELLOW}Installation of BurpSuite Pro{RESET} (Comming soon)"
-
     fi
-    echo -e "████████████████████████████████████████████████████████████████████████████████████████████████████"
+
+    # press key to continue
+    echo -e ""
+    read -n 1 -s -r -p "Press any key to exit ..."
+    echo -e ""
+    echo -e ""
     echo -e "${GREEN}Exit the installer${RESET}"
+    sleep 0.5
+    tput cuu 1 && tput ed
+    echo -e "${GREEN}Exit the installer .${RESET}"
+    sleep 0.5
+    tput cuu 1 && tput ed
+    echo -e "${GREEN}Exit the installer ..${RESET}"
+    sleep 0.5
+    tput cuu 1 && tput ed
+    echo -e "${GREEN}Exit the installer ...${RESET}"
+    sleep 0.5
     exit_mode
 }
 
@@ -394,6 +454,7 @@ update() {
         exit_mode
     else
         echo "The script need an update"
+        sleep 2
     fi
 
     # Définir une variable pour stocker la commande de mise à jour
@@ -445,9 +506,9 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
                 echo "Invalid file argument. Use -h or --help for help menu."
                 exit_mode
             else
-                sleep 1
+                sleep 3
                 update_clear "$2"
-                exit_mode
+
             fi
             ;;
         "-h" | "--help")
