@@ -411,6 +411,7 @@ start_install() {
         sudo /tmp/Multi_tools_installer.sh
         rm -rf /tmp/Multi_tools_installer.sh
         echo -e "${GREEN}Installation of Multi Tools done${RESET}"
+        sleep 1
     fi
 
     if [ "$BURP_PRO_VAR" == true ]; then

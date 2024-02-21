@@ -1,0 +1,42 @@
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers d'environnement
+.env
+
+# Virtualenv / environnement virtuel
+venv/
+env/
+
+# Fichiers de sauvegarde
+*.bak
+*.swp
+
+# Fichiers de logs
+*.log
+
+# Cache des fichiers pyc
+__pycache__/
+
+# Packages générés
+*.egg-info/
+dist/
+build/
+
+# Fichiers de configuration
+*.ini
+*.cfg
+
+# Fichiers de sauvegarde de l'éditeur
+*~
+
+# Fichiers d'installation
+pip-log.txt
+
+# Paramètres IDE (par exemple, PyCharm)
+.idea/
+.vscode/
+
+# README.md
+README.md
