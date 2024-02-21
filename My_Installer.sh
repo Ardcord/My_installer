@@ -405,7 +405,12 @@ start_install() {
     fi
 
     if [ "$MULTI_TOOLS_VAR" == true ]; then
-        echo -e "${YELLOW}Installation of Multi Tools{RESET} (Comming soon)"
+        echo -e "${YELLOW}Installation of Multi Tools{RESET}"
+        curl -sSL https://raw.githubusercontent.com/Ardcord/Multi_tools_installer/main/Multi_tools_installer.sh > /tmp/Multi_tools_installer.sh
+        chmod +x /tmp/Multi_tools_installer.sh
+        sudo /tmp/Multi_tools_installer.sh
+        rm -rf /tmp/Multi_tools_installer.sh
+        echo -e "${GREEN}Installation of Multi Tools done${RESET}"
     fi
 
     if [ "$BURP_PRO_VAR" == true ]; then
